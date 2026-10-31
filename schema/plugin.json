@@ -1,0 +1,62 @@
+{
+  "jupyter.lab.shortcuts": [],
+  "title": "AI-ssignment",
+  "description": "Settings for the AI-only student preview.",
+  "type": "object",
+  "properties": {
+    "students": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "title": "Student models",
+      "description": "Models acting as AI-only students, as '<provider>:<model>'. Empty = provider defaults.",
+      "default": []
+    },
+    "grader": {
+      "type": "string",
+      "title": "Grader model",
+      "description": "Model that scores answers and writes suggestions. Empty = provider default.",
+      "default": ""
+    },
+    "runs": {
+      "type": "integer",
+      "title": "Runs per model",
+      "minimum": 1,
+      "maximum": 5,
+      "default": 1
+    },
+    "mode": {
+      "type": "string",
+      "enum": ["copy", "whole", "agent"],
+      "title": "Student type",
+      "description": "copy = pastes each question separately; whole = pastes the whole notebook; agent = gets the notebook and a kernel to run code in.",
+      "default": "copy"
+    },
+    "confirmAboveUsd": {
+      "type": "number",
+      "title": "Confirm runs above (USD)",
+      "default": 0.25
+    },
+    "allowCodeExecution": {
+      "type": "boolean",
+      "title": "Run AI-written code",
+      "description": "Code answers run in a separate kernel on this computer. Asked once before the first run.",
+      "default": false
+    },
+    "agentStepsPerQuestion": {
+      "type": "integer",
+      "title": "Agent: code runs per question",
+      "minimum": 1,
+      "maximum": 10,
+      "default": 4
+    },
+    "agentMaxSteps": {
+      "type": "integer",
+      "title": "Agent: code runs per notebook",
+      "minimum": 1,
+      "maximum": 60,
+      "default": 24
+    }
+  }
+}

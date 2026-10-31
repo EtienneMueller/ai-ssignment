@@ -1,0 +1,36 @@
+name: Build
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Build wheel
+        run: |
+          set -eux
+          python -m pip install -U "jupyterlab>=4.3,<5" build
+          jlpm install
+          jlpm lint:check
+          python -m build
+      - name: Install and check the extension
+        run: |
+          set -eux
+          python -m pip install dist/*.whl
+          jupyter server extension list 2>&1 | grep -ie "aissignment.*OK"
+          jupyter labextension list 2>&1 | grep -ie "aissignment.*OK"
+          python -m jupyterlab.browser_check
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/*

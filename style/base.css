@@ -1,0 +1,603 @@
+/*
+  AI-ssignment – uses JupyterLab theme variables so it follows the light/dark theme.
+  Score colours: red = the AI does well (bad for the assignment), green = the AI struggles.
+*/
+
+:root {
+  --aiss-question: var(--jp-brand-color1);
+  --aiss-answer: #c69026;
+  --aiss-answer-bg: rgb(255 193 7 / 8%);
+  --aiss-high: var(--jp-error-color1);
+  --aiss-high-bg: rgb(211 47 47 / 12%);
+  --aiss-mid: var(--jp-warn-color1);
+  --aiss-mid-bg: rgb(245 124 0 / 12%);
+  --aiss-low: var(--jp-success-color1);
+  --aiss-low-bg: rgb(56 142 60 / 12%);
+}
+
+/* --- Question / answer cells -------------------------------------------------------------------- */
+
+.jp-Cell.aiss-question,
+.jp-Cell.aiss-answer,
+.jp-Cell.aiss-tests {
+  border-left: 3px solid var(--aiss-question);
+  margin-top: 8px;
+}
+
+.jp-Cell.aiss-answer,
+.jp-Cell.aiss-tests {
+  border-left-color: var(--aiss-answer);
+  background: var(--aiss-answer-bg);
+  margin-top: 0;
+}
+
+.jp-Cell[data-aiss-label]::before {
+  content: attr(data-aiss-label);
+  display: block;
+  padding: 2px 0 0 calc(var(--jp-cell-prompt-width) + 4px);
+  font-size: var(--jp-ui-font-size0);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--aiss-question);
+}
+
+.jp-Cell.aiss-answer[data-aiss-label]::before,
+.jp-Cell.aiss-tests[data-aiss-label]::before {
+  color: var(--aiss-answer);
+}
+
+/* --- AI preview block ------------------------------------------------------------------------------ */
+
+.aiss-footer {
+  padding: 4px 8px 10px calc(var(--jp-cell-prompt-width) + 4px);
+}
+
+.aiss-preview {
+  border: 1px solid var(--jp-border-color2);
+  border-radius: 4px;
+  background: var(--jp-layout-color1);
+  padding: 6px 10px 8px;
+  font-family: var(--jp-ui-font-family);
+  font-size: var(--jp-ui-font-size1);
+  color: var(--jp-ui-font-color1);
+}
+
+.aiss-preview.aiss-stale .aiss-answer-body {
+  opacity: 0.45;
+}
+
+.aiss-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 26px;
+}
+
+.aiss-carousel {
+  margin-top: 4px;
+  border-top: 1px solid var(--jp-border-color3);
+  padding-top: 4px;
+}
+
+.aiss-title {
+  font-weight: 600;
+  color: var(--jp-ui-font-color2);
+}
+
+.aiss-spacer {
+  flex: 1;
+}
+
+.aiss-muted {
+  color: var(--jp-ui-font-color2);
+}
+
+.aiss-small {
+  font-size: var(--jp-ui-font-size0);
+}
+
+.aiss-error-text {
+  color: var(--jp-error-color1);
+}
+
+.aiss-qsettings {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 8px;
+}
+
+.aiss-qsettings select,
+.aiss-qsettings input,
+.aiss-sidebar select,
+.aiss-key input {
+  font: inherit;
+  font-size: var(--jp-ui-font-size1);
+  color: var(--jp-ui-font-color1);
+  background: var(--jp-layout-color1);
+  border: 1px solid var(--jp-border-color1);
+  border-radius: 2px;
+  padding: 1px 4px;
+}
+
+.aiss-qsettings input {
+  width: 52px;
+}
+
+.aiss-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font: inherit;
+  font-size: var(--jp-ui-font-size1);
+  color: var(--jp-ui-font-color1);
+  background: var(--jp-layout-color2);
+  border: 1px solid var(--jp-border-color1);
+  border-radius: 2px;
+  padding: 2px 8px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.aiss-btn:hover:not(:disabled) {
+  background: var(--jp-layout-color3);
+}
+
+.aiss-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.aiss-btn.aiss-primary {
+  background: var(--jp-brand-color1);
+  border-color: var(--jp-brand-color1);
+  color: white;
+}
+
+.aiss-btn.aiss-primary:hover:not(:disabled) {
+  background: var(--jp-brand-color0);
+}
+
+.aiss-wide {
+  width: 100%;
+  justify-content: center;
+  padding: 4px 8px;
+}
+
+.aiss-icon {
+  font: inherit;
+  font-size: 16px;
+  line-height: 1;
+  color: var(--jp-ui-font-color1);
+  background: none;
+  border: none;
+  border-radius: 2px;
+  padding: 1px 6px;
+  cursor: pointer;
+}
+
+.aiss-icon:hover {
+  background: var(--jp-layout-color2);
+}
+
+.aiss-link {
+  font: inherit;
+  color: var(--jp-content-link-color);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.aiss-flag {
+  font-size: var(--jp-ui-font-size1);
+  padding: 3px 8px;
+  border-radius: 2px;
+  margin: 4px 0;
+}
+
+.aiss-warn {
+  background: var(--jp-warn-color3);
+}
+
+.aiss-info {
+  background: var(--jp-layout-color2);
+}
+
+.aiss-error {
+  background: var(--jp-error-color3);
+  color: var(--jp-error-color0);
+}
+
+.aiss-answer-body {
+  max-height: 320px;
+  overflow: auto;
+  margin-top: 4px;
+}
+
+.aiss-answer-body.aiss-expanded {
+  max-height: none;
+}
+
+.aiss-markdown .jp-RenderedMarkdown {
+  padding-right: 0;
+}
+
+.aiss-grade {
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid var(--jp-border-color3);
+}
+
+.aiss-stale-grade {
+  opacity: 0.5;
+  text-decoration: line-through;
+}
+
+.aiss-score {
+  font-weight: 600;
+  font-size: var(--jp-ui-font-size1);
+  padding: 1px 8px;
+  border-radius: 10px;
+}
+
+.aiss-high {
+  background: var(--aiss-high-bg);
+  color: var(--aiss-high);
+}
+
+.aiss-mid {
+  background: var(--aiss-mid-bg);
+  color: var(--aiss-mid);
+}
+
+.aiss-low {
+  background: var(--aiss-low-bg);
+  color: var(--aiss-low);
+}
+
+.aiss-hint {
+  margin-top: 8px;
+  padding: 6px 10px;
+  border-radius: 2px;
+  background: var(--jp-warn-color3);
+}
+
+.aiss-hint-stale {
+  opacity: 0.7;
+}
+
+.aiss-spinner {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border: 2px solid currentcolor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: aiss-spin 0.7s linear infinite;
+}
+
+@keyframes aiss-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* --- Sidebar --------------------------------------------------------------------------------------- */
+
+.aiss-sidebar {
+  background: var(--jp-layout-color1);
+  color: var(--jp-ui-font-color1);
+  font-size: var(--jp-ui-font-size1);
+  overflow-y: auto;
+  min-width: 260px;
+}
+
+.aiss-sidebar-content {
+  padding: 8px 12px 24px;
+}
+
+.aiss-sidebar h2 {
+  font-size: var(--jp-ui-font-size2);
+  margin: 4px 0 8px;
+}
+
+.aiss-sidebar h3 {
+  font-size: var(--jp-ui-font-size0);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--jp-ui-font-color2);
+  margin: 16px 0 6px;
+}
+
+.aiss-sidebar section {
+  border-top: 1px solid var(--jp-border-color2);
+}
+
+.aiss-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.aiss-segmented {
+  display: inline-flex;
+}
+
+.aiss-segmented button {
+  font: inherit;
+  color: var(--jp-ui-font-color1);
+  background: var(--jp-layout-color1);
+  border: 1px solid var(--jp-border-color1);
+  padding: 2px 10px;
+  margin-left: -1px;
+  cursor: pointer;
+}
+
+.aiss-segmented button.aiss-on {
+  background: var(--jp-brand-color3);
+  border-color: var(--jp-brand-color1);
+  position: relative;
+}
+
+.aiss-models {
+  margin: 8px 0;
+}
+
+.aiss-model {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 0;
+  cursor: pointer;
+}
+
+.aiss-model span:first-of-type {
+  flex: 1;
+}
+
+.aiss-disabled {
+  opacity: 0.5;
+}
+
+.aiss-key {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 4px 0;
+}
+
+.aiss-key input {
+  flex: 1;
+  min-width: 120px;
+}
+
+.aiss-field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 6px 0;
+}
+
+.aiss-field select {
+  max-width: 170px;
+}
+
+.aiss-overall-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2px 0;
+}
+
+.aiss-markdown .jp-RenderedMarkdown h1,
+.aiss-markdown .jp-RenderedMarkdown h2,
+.aiss-markdown .jp-RenderedMarkdown h3,
+.aiss-markdown .jp-RenderedMarkdown h4 {
+  font-size: var(--jp-content-font-size2);
+  margin: 0.6em 0 0.3em;
+}
+
+.aiss-markdown .jp-RenderedMarkdown > :first-child {
+  margin-top: 0;
+}
+
+.aiss-advanced summary {
+  cursor: pointer;
+  font-size: var(--jp-ui-font-size0);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--jp-ui-font-color2);
+  margin: 16px 0 6px;
+}
+
+.aiss-advanced h4 {
+  font-size: var(--jp-ui-font-size1);
+  margin: 12px 0 4px;
+}
+
+.aiss-adv-provider {
+  margin-bottom: 8px;
+}
+
+.aiss-adv-models {
+  list-style: none;
+  margin: 2px 0;
+  padding: 0;
+}
+
+.aiss-adv-models li {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 1px 0;
+}
+
+.aiss-adv-models code {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--jp-ui-font-size0);
+}
+
+.aiss-advanced input.aiss-number {
+  width: 60px;
+}
+
+.aiss-advanced input,
+.aiss-json textarea {
+  font: inherit;
+  font-size: var(--jp-ui-font-size1);
+  color: var(--jp-ui-font-color1);
+  background: var(--jp-layout-color1);
+  border: 1px solid var(--jp-border-color1);
+  border-radius: 2px;
+  padding: 1px 4px;
+}
+
+.aiss-json textarea {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 4px 0;
+  font-family: var(--jp-code-font-family);
+  font-size: var(--jp-code-font-size);
+  resize: vertical;
+}
+
+.aiss-paths {
+  overflow-wrap: anywhere;
+}
+
+.aiss-provider {
+  margin-bottom: 10px;
+}
+
+.aiss-provider-name {
+  font-weight: 600;
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.aiss-model-row {
+  display: flex;
+  align-items: center;
+}
+
+.aiss-model-row .aiss-model {
+  flex: 1;
+  min-width: 0;
+}
+
+.aiss-model-row .aiss-remove {
+  visibility: hidden;
+}
+
+.aiss-model-row:hover .aiss-remove {
+  visibility: visible;
+}
+
+.aiss-provider-form {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 4px 0 8px;
+  padding: 8px;
+  border: 1px solid var(--jp-border-color2);
+  border-radius: 4px;
+  background: var(--jp-layout-color2);
+}
+
+.aiss-provider-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: var(--jp-ui-font-size0);
+  color: var(--jp-ui-font-color2);
+}
+
+.aiss-provider-form input,
+.aiss-models .aiss-key input {
+  font: inherit;
+  font-size: var(--jp-ui-font-size1);
+  color: var(--jp-ui-font-color1);
+  background: var(--jp-layout-color1);
+  border: 1px solid var(--jp-border-color1);
+  border-radius: 2px;
+  padding: 2px 4px;
+}
+
+.aiss-add-provider {
+  margin-top: 2px;
+}
+
+/* --- Code answers --------------------------------------------------------------------------------- */
+
+.aiss-run {
+  margin-top: 4px;
+}
+
+.aiss-outputs .jp-OutputArea-output {
+  padding: 2px 0;
+}
+
+.aiss-outputs .jp-OutputArea-output img {
+  max-width: 100%;
+}
+
+.aiss-tests-list {
+  list-style: none;
+  margin: 6px 0 0;
+  padding: 0;
+  font-size: var(--jp-ui-font-size1);
+}
+
+.aiss-tests-list li {
+  padding: 2px 6px;
+  margin: 2px 0;
+  border-radius: 2px;
+}
+
+.aiss-tests-list code {
+  white-space: pre-wrap;
+  font-size: var(--jp-code-font-size);
+}
+
+.aiss-pass {
+  background: var(--aiss-high-bg);
+}
+
+.aiss-fail {
+  background: var(--aiss-low-bg);
+}
+
+.aiss-reply {
+  margin-top: 6px;
+  padding-top: 4px;
+  border-top: 1px dashed var(--jp-border-color2);
+}
+
+/* --- Agent students ------------------------------------------------------------------------------- */
+
+.aiss-steps {
+  margin-top: 6px;
+}
+
+.aiss-step {
+  margin: 6px 0 0 8px;
+  padding-left: 8px;
+  border-left: 2px solid var(--jp-border-color2);
+}
+
+.aiss-progress {
+  margin-top: 8px;
+  padding: 6px 8px;
+  border: 1px solid var(--jp-border-color2);
+  border-radius: 3px;
+  background: var(--jp-layout-color2);
+}

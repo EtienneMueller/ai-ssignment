@@ -1,0 +1,16 @@
+# Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
+_commit: v4.6.5
+_src_path: https://github.com/jupyterlab/extension-template
+advanced: false
+author_name: Etienne Mueller
+has_ai_rules: false
+has_binder: false
+has_settings: true
+kind: frontend-and-server
+labextension_name: aissignment
+project_short_description: Write assignments in Jupyter and preview what an AI-only
+    student would hand in
+python_name: aissignment
+repository: ''
+test: false
+
